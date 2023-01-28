@@ -1,7 +1,6 @@
 import { createElement } from '../render';
 
-const pointListTemplate = (point) => (
-  
+const pointListTemplate = () => (
   `<li class="trip-events__item">
       <div class="event">
         <time class="event__date" datetime="2019-03-18">MAR 18</time>
@@ -51,7 +50,7 @@ export default class PointListView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {

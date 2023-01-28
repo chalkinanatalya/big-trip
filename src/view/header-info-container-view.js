@@ -12,7 +12,7 @@ const createHeaderInfoTemplate = () => (
         Total: &euro;&nbsp;<span class="trip-info__cost-value">1230</span>
       </p>
 </section>`
-)
+);
 
 export default class HeaderInfoContainerView {
   getTemplate() {
@@ -24,7 +24,7 @@ export default class HeaderInfoContainerView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {

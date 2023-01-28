@@ -12,15 +12,13 @@ const Destinations = [
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163317',
         description: 'Chamonix parliament building'
-      }
-    ],
-    pictures: [
+      },
+
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163318',
         description: 'Chamonix river'
-      }
-    ],
-    pictures: [
+      },
+
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163319',
         description: 'Chamonix park'
@@ -35,19 +33,17 @@ const Destinations = [
     pictures: [
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163310',
-        description: 'Amsterdam parliament building'
-      }
-    ],
-    pictures: [
+        description: 'Chamonix parliament building'
+      },
+
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163311',
-        description: 'Amsterdam river'
-      }
-    ],
-    pictures: [
+        description: 'Chamonix river'
+      },
+
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163312',
-        description: 'Amsterdam park'
+        description: 'Chamonix park'
       }
     ]
   },
@@ -58,24 +54,22 @@ const Destinations = [
     name: 'Geneva',
     pictures: [
       {
-        src: 'http://picsum.photos/300/200?r=0.0762563005163313',
-        description: 'Geneva parliament building'
-      }
-    ],
-    pictures: [
-      {
         src: 'http://picsum.photos/300/200?r=0.0762563005163314',
-        description: 'Geneva river'
-      }
-    ],
-    pictures: [
+        description: 'Chamonix parliament building'
+      },
+
       {
         src: 'http://picsum.photos/300/200?r=0.0762563005163315',
-        description: 'Geneva park'
+        description: 'Chamonix river'
+      },
+
+      {
+        src: 'http://picsum.photos/300/200?r=0.0762563005163316',
+        description: 'Chamonix park'
       }
     ]
   },
-]
+];
 
 const Offers = [
   {
@@ -101,7 +95,7 @@ const Offers = [
     title: 'Book tickets',
     price: 20,
   }
-]
+];
 
 // const OffersByType = {
 //   type: getRandomElement(POINTS_TYPES),
@@ -109,13 +103,13 @@ const Offers = [
 // }
 
 export const generatePoint = () => ({
-    basePrice: Math.floor(Math.random() * 999),
-    dateFrom: '2019-07-10T22:55:56.845Z',
-    dateTo: '2019-07-11T11:22:13.375Z',
-    destination: (getRandomElement(Destinations)).id,
-    id: nanoid(),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
-    offers: getRandomElements((Offers).map((offer) => offer.id), 2),
-    type: getRandomElement(POINTS_TYPES)
-  }
-)
+  basePrice: Math.floor(Math.random() * 999),
+  dateFrom: '2019-07-10T22:55:56.845Z',
+  dateTo: '2019-07-11T11:22:13.375Z',
+  destination: (getRandomElement(Destinations)).id,
+  id: nanoid(),
+  isFavorite: Boolean(getRandomInteger(0, 1)),
+  offers: getRandomElements((Offers).map((offer) => offer.id), 2),
+  type: getRandomElement(POINTS_TYPES)
+}
+);

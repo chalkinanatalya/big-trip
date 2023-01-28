@@ -1,8 +1,8 @@
-import SortView from "../view/sort-view";
-import ListView from "../view/list-view";
-import FormCreatePointView from "../view/form-create-point-view";
+import SortView from '../view/sort-view';
+import ListView from '../view/list-view';
+import FormCreatePointView from '../view/form-create-point-view';
 import {render} from '../render.js';
-import PointListView from "../view/point-list-view";
+import PointListView from '../view/point-list-view';
 
 export default class MainPresenter {
   listTripComponent = new ListView();
@@ -19,5 +19,5 @@ export default class MainPresenter {
     for(let i = 0; i < this.bodyTasks.length; i++) {
       render(new PointListView(this.bodyTasks[i]), this.listTripComponent.getElement());
     }
-  }
+  };
 }
