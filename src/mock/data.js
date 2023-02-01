@@ -1,6 +1,15 @@
 import { POINTS_TYPES } from '../const.js';
 import { getRandomElement, getRandomElements, getRandomInteger } from '../utils.js';
 import { nanoid } from 'nanoid';
+import dayjs from 'dayjs';
+
+const generateDate = () => {
+
+  const maxDaysGap = 7;
+  const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
+
+  return dayjs().add(daysGap, 'day').format('DD/MM/YYYY');
+};
 
 
 const Destinations = [
@@ -104,12 +113,12 @@ const Offers = [
 
 export const generatePoint = () => ({
   basePrice: Math.floor(Math.random() * 999),
-  dateFrom: '2019-07-10T22:55:56.845Z',
-  dateTo: '2019-07-11T11:22:13.375Z',
-  destination: (getRandomElement(Destinations)).id,
+  dateFrom: generateDate(),
+  dateTo: generateDate(),
+  destination: (getRandomElement(Destinations)),
   id: nanoid(),
   isFavorite: Boolean(getRandomInteger(0, 1)),
-  offers: getRandomElements((Offers).map((offer) => offer.id), 2),
+  offers: getRandomElements((Offers).map((offer) => offer.title), 2),
   type: getRandomElement(POINTS_TYPES)
 }
 );

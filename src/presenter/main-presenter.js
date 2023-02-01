@@ -14,7 +14,7 @@ export default class MainPresenter {
 
     render(new SortView(), this.bodyContainer);
     render (this.listTripComponent, this.bodyContainer);
-    render(new FormCreatePointView(), this.listTripComponent.getElement());
+    render(new FormCreatePointView(this.bodyTasks[0]), this.listTripComponent.getElement());
 
     for(let i = 0; i < this.bodyTasks.length; i++) {
       render(new PointListView(this.bodyTasks[i]), this.listTripComponent.getElement());
