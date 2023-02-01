@@ -168,7 +168,7 @@ export default class FormEditPointView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {

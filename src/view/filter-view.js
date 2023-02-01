@@ -36,7 +36,7 @@ export default class FilterView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {

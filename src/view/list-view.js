@@ -1,6 +1,6 @@
 import { createElement } from '../render';
 
-const createListTemplate = () => `<ul class="trip-events__list"></ul>`;
+const createListTemplate = () => '<ul class="trip-events__list"></ul>';
 
 
 export default class ContainerView {
@@ -13,7 +13,7 @@ export default class ContainerView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {

@@ -1,6 +1,6 @@
 import { createElement } from '../render';
 
-const createContainerTemplate = () => `<div class="page-body__container"></div>`;
+const createContainerTemplate = () => '<div class="page-body__container"></div>';
 
 
 export default class ContainerView {
@@ -13,7 +13,7 @@ export default class ContainerView {
       this.element = createElement(this.getTemplate());
     }
 
-    return this.element
+    return this.element;
   }
 
   removeElement() {
