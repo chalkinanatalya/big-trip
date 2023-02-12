@@ -3,6 +3,7 @@ import ListView from '../view/list-view';
 import {render} from '../render.js';
 import PointListView from '../view/point-list-view';
 import FormEditPointView from '../view/form-edit-point-view';
+import NoPointView from '../view/no-point-view';
 
 export default class MainPresenter {
   #bodyContainer = null;
@@ -10,7 +11,7 @@ export default class MainPresenter {
 
   #listTripComponent = new ListView();
 
-  #bodyTasks = [];
+  #boardPoints = [];
 
   constructor(bodyContainer, pointsModel) {
     this.#bodyContainer = bodyContainer;
@@ -18,15 +19,9 @@ export default class MainPresenter {
   }
 
   init = () => {
-    this.#bodyTasks = [...this.#pointsModel.points];
+    this.#boardPoints = [...this.#pointsModel.points];
 
-    render(new SortView(), this.#bodyContainer);
-    render (this.#listTripComponent, this.#bodyContainer);
-    //render(new FormCreatePointView(this.#bodyTasks[0]), this.listTripComponent.element);
-
-    for(let i = 0; i < this.#bodyTasks.length; i++) {
-      this.#renderPoint(this.#bodyTasks[i]);
-    }
+    this.#renderBoard();
   };
 
   #renderPoint(point) {
@@ -68,5 +63,18 @@ export default class MainPresenter {
 
     render(pointComponent, this.#listTripComponent.element);
   }
+
+  #renderBoard = () => {
+    render(new SortView(), this.#bodyContainer);
+    render (this.#listTripComponent, this.#bodyContainer);
+
+    for(let i = 0; i < this.#boardPoints.length; i++) {
+      this.#renderPoint(this.#boardPoints[i]);
+    }
+
+    if(this.#boardPoints.length === 0) {
+      render( new NoPointView(), this.#listTripComponent.element);
+    }
+  };
 
 }
