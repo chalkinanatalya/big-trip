@@ -8,10 +8,10 @@ const siteMainHeaderElement = document.querySelector('.trip-main');
 const siteHeaderElement = siteMainHeaderElement.querySelector('.trip-controls__filters');
 const siteBodyComponent = document.querySelector('.trip-events');
 const pointsModel = new PointsModel();
-const mainPresenter = new MainPresenter();
+const mainPresenter = new MainPresenter(siteBodyComponent, pointsModel);
 
 render(new HeaderInfoContainerView, siteMainHeaderElement, 'afterbegin');
 render(new FilterView(), siteHeaderElement);
 
-mainPresenter.init(siteBodyComponent, pointsModel);
+mainPresenter.init();
 

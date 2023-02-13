@@ -9,9 +9,9 @@ const pointListTemplate = (point) => {
 
   return `<li class="trip-events__item">
       <div class="event">
-        <time class="event__date" datetime="2019-03-18">MAR 18</time>
+        <time class="event__date" datetime="2019-03-18">${dateFrom}</time>
         <div class="event__type">
-          <img class="event__type-icon" width="42" height="42" src="img/icons/taxi.png" alt="Event type icon">
+          <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
         <h3 class="event__title">${type} ${destination.name}</h3>
         <div class="event__schedule">
@@ -47,23 +47,26 @@ const pointListTemplate = (point) => {
 };
 
 export default class PointListView {
+  #element = null;
+  #point = null;
+
   constructor(point) {
-    this.point = point;
+    this.#point = point;
   }
 
-  getTemplate() {
-    return pointListTemplate(this.point);
+  get template() {
+    return pointListTemplate(this.#point);
   }
 
-  getElement() {
-    if(!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if(!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

@@ -106,10 +106,10 @@ const Offers = [
   }
 ];
 
-// const OffersByType = {
-//   type: getRandomElement(POINTS_TYPES),
-//   offers: getRandomElements(Offers, Math.floor(Math.random() * (Offers.length - 1)))
-// }
+export const OffersByType = {
+  type: getRandomElement(POINTS_TYPES),
+  offers: getRandomElements(Offers, Math.floor(Math.random() * (Offers.length - 1)))
+};
 
 export const generatePoint = () => ({
   basePrice: Math.floor(Math.random() * 999),
