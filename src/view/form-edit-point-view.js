@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 //offers
 
@@ -178,28 +178,16 @@ const formEditPointTemplate = (point) => {
 </li>`;
 };
 
-export default class FormEditPointView {
-  #element = null;
+export default class FormEditPointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
   get template() {
     return formEditPointTemplate(this.#point);
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 

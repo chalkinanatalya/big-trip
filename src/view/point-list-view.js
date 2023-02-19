@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const pointListTemplate = (point) => {
   const {basePrice, dateFrom, dateTo, destination, type, isFavorite, offers} = point;
@@ -46,27 +46,15 @@ const pointListTemplate = (point) => {
   </li>`;
 };
 
-export default class PointListView {
-  #element = null;
+export default class PointListView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
   get template() {
     return pointListTemplate(this.#point);
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

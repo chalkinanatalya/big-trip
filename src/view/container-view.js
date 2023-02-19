@@ -1,24 +1,10 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createContainerTemplate = () => '<div class="page-body__container"></div>';
 
 
-export default class ContainerView {
-  #element = null;
-
+export default class ContainerView extends AbstractView {
   get template() {
     return createContainerTemplate();
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
