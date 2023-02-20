@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const pointListTemplate = (point) => {
   const {basePrice, dateFrom, dateTo, destination, type, isFavorite, offers} = point;
@@ -46,11 +46,11 @@ const pointListTemplate = (point) => {
   </li>`;
 };
 
-export default class PointListView {
-  #element = null;
+export default class PointListView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
@@ -58,15 +58,13 @@ export default class PointListView {
     return pointListTemplate(this.#point);
   }
 
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
+  setEditClickHandler = (callback) => {
+    this._callback.editClick = callback;
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#editClickHandler);
+  };
 
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #editClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.editClick();
+  };
 }

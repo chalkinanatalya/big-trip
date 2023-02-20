@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createHeaderTemplate = (destination, dateFrom, dateTo) => (
   `<header class="event__header">
@@ -174,28 +174,16 @@ const formCreatePointTemplate = (point) => {
   </li>`;
 };
 
-export default class FormCreatePointView {
-  #element = null;
+export default class FormCreatePointView extends AbstractView {
   #point = null;
 
   constructor(point) {
+    super();
     this.#point = point;
   }
 
   get template() {
     return formCreatePointTemplate(this.#point);
-  }
-
-  get element() {
-    if(!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
 
