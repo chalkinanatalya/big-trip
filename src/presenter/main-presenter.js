@@ -1,9 +1,9 @@
-import {render, replace} from '../framework/render.js';
+import {render, replace, remove} from '../framework/render.js';
 import SortView from '../view/sort-view';
 import ListView from '../view/list-view';
 import PointListView from '../view/point-list-view';
 import FormEditPointView from '../view/form-edit-point-view';
-//import FormCreatePointView from '../view/form-create-point-view.js';
+import FormCreatePointView from '../view/form-create-point-view.js';
 import NoPointView from '../view/no-point-view';
 //import NewEventButtonView from '../view/new-event-button-view.js';
 
@@ -12,7 +12,6 @@ export default class MainPresenter {
   #pointsModel = null;
 
   #listTripComponent = new ListView();
-  //#buttonNewEvent = new NewEventButtonView();
 
   #boardPoints = [];
 
@@ -27,12 +26,24 @@ export default class MainPresenter {
     this.#renderBoard();
   };
 
-  // renderCreatePoint() {
-  //   const pointNewComponent = new FormCreatePointView();
-  //   this.#buttonNewEvent.setNewEventClickHandler(() => {
-  //     render(pointNewComponent, this.#bodyContainer);
-  //   });
-  // }
+  renderForm(enableButton) {
+    const pointNewComponent = new FormCreatePointView();
+
+    const renderCreatePoint = () => {
+      render(pointNewComponent, this.#listTripComponent.element, 'afterbegin');
+    };
+
+    const removeCreatePoint = () => {
+      remove(pointNewComponent, this.#listTripComponent.element);
+      enableButton.setEnabledHandler();
+    };
+
+    renderCreatePoint();
+
+    pointNewComponent.setCancelButtonHandler(() => {
+      removeCreatePoint();
+    });
+  }
 
   #renderPoint(point) {
     const pointComponent = new PointListView(point);
@@ -70,6 +81,8 @@ export default class MainPresenter {
     });
 
     render(pointComponent, this.#listTripComponent.element);
+
+    //this.#renderForm(this.#pointNewComponent);
   }
 
   #renderBoard = () => {
