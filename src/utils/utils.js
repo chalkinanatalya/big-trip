@@ -20,3 +20,9 @@ export const getRandomInteger = (a = 0, b = 1) => {
 };
 
 export const humanizeTaskDueDate = (dueDate) => dayjs(dueDate).format('D MMMM');
+
+//points filter
+
+export const isPointPast = (date) => dayjs(date).isBefore(dayjs());
+export const isPointFuture = (date) => dayjs(date).isAfter(dayjs());
+export const isPointPresent = (date) => dayjs(date).isSame(dayjs(), 'day');

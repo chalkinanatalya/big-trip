@@ -1,5 +1,5 @@
 import { POINTS_TYPES } from '../const.js';
-import { getRandomElement, getRandomElements, getRandomInteger } from '../utils.js';
+import { getRandomElement, getRandomElements, getRandomInteger } from '../utils/utils.js';
 import { nanoid } from 'nanoid';
 import dayjs from 'dayjs';
 
@@ -8,7 +8,7 @@ const generateDate = () => {
   const maxDaysGap = 7;
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
 
-  return dayjs().add(daysGap, 'day').format('DD/MM/YYYY');
+  return dayjs().add(daysGap, 'day').toDate();
 };
 
 
