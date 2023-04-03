@@ -5,23 +5,35 @@ import PointListView from '../view/point-list-view';
 import FormEditPointView from '../view/form-edit-point-view';
 import FormCreatePointView from '../view/form-create-point-view.js';
 import NoPointView from '../view/no-point-view';
-//import NewEventButtonView from '../view/new-event-button-view.js';
+import { generateFilter } from '../mock/filter.js';
+import { FilterType } from '../const';
 
 export default class MainPresenter {
   #bodyContainer = null;
-  #pointsModel = null;
+  pointsModel = null;
 
   #listTripComponent = new ListView();
+  #sortComponent = null;
+  #pointComponentsArray = [];
+  #pointEditComponentsArray = [];
 
   #boardPoints = [];
+  #selectedFilter = FilterType.EVERYTHING;
 
   constructor(bodyContainer, pointsModel) {
     this.#bodyContainer = bodyContainer;
-    this.#pointsModel = pointsModel;
+    this.pointsModel = pointsModel;
   }
 
   init = () => {
-    this.#boardPoints = [...this.#pointsModel.points];
+    if(this.#pointComponentsArray.length > 0) {
+      remove(this.#sortComponent);
+      for(let i = 0; i < this.#pointComponentsArray.length; i++) {
+        remove(this.#pointComponentsArray[i]);
+        remove(this.#pointEditComponentsArray[i]);
+      }
+    }
+    this.#boardPoints = generateFilter(this.pointsModel.points).find((point) => point.name === this.#selectedFilter).points;
 
     this.#renderBoard();
   };
@@ -45,9 +57,16 @@ export default class MainPresenter {
     });
   }
 
+  setFilter (filterType) {
+    this.#selectedFilter = filterType;
+  }
+
   #renderPoint(point) {
     const pointComponent = new PointListView(point);
     const pointEditComponent = new FormEditPointView(point);
+
+    this.#pointComponentsArray.push(pointComponent);
+    this.#pointEditComponentsArray.push(pointEditComponent);
 
     const replacePointToForm = () => {
       replace(pointEditComponent, pointComponent);
@@ -81,12 +100,11 @@ export default class MainPresenter {
     });
 
     render(pointComponent, this.#listTripComponent.element);
-
-    //this.#renderForm(this.#pointNewComponent);
   }
 
   #renderBoard = () => {
-    render(new SortView(), this.#bodyContainer);
+    this.#sortComponent = new SortView();
+    render(this.#sortComponent, this.#bodyContainer);
     render(this.#listTripComponent, this.#bodyContainer);
 
     for(let i = 0; i < this.#boardPoints.length; i++) {
