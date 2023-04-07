@@ -1,21 +1,21 @@
-import {render, replace, remove} from '../framework/render.js';
+import {render, remove} from '../framework/render.js';
 import SortView from '../view/sort-view';
 import ListView from '../view/list-view';
-import PointListView from '../view/point-list-view';
-import FormEditPointView from '../view/form-edit-point-view';
 import FormCreatePointView from '../view/form-create-point-view.js';
 import NoPointView from '../view/no-point-view';
 import { generateFilter } from '../mock/filter.js';
 import { FilterType } from '../const';
+import PointPresenter from './point-presenter.js';
+import { updateItem } from '../utils/utils.js';
 
 export default class MainPresenter {
   #bodyContainer = null;
   pointsModel = null;
+  #pointsPresenter = [];
+  //#sourcedContainerPoints = [];
 
   #listTripComponent = new ListView();
   #sortComponent = null;
-  #pointComponentsArray = [];
-  #pointEditComponentsArray = [];
 
   #boardPoints = [];
   #selectedFilter = FilterType.EVERYTHING;
@@ -26,16 +26,25 @@ export default class MainPresenter {
   }
 
   init = () => {
-    if(this.#pointComponentsArray.length > 0) {
-      remove(this.#sortComponent);
-      for(let i = 0; i < this.#pointComponentsArray.length; i++) {
-        remove(this.#pointComponentsArray[i]);
-        remove(this.#pointEditComponentsArray[i]);
-      }
+    remove(this.#sortComponent);
+    if(this.#pointsPresenter.length > 0) {
+      this.#pointsPresenter.forEach((point) => {
+        point.removePoint();
+      });
     }
+    this.#pointsPresenter = [];
     this.#boardPoints = generateFilter(this.pointsModel.points).find((point) => point.name === this.#selectedFilter).points;
 
     this.#renderBoard();
+  };
+
+  #handlePointChange = (updatedTask) => {
+    this.#boardPoints = updateItem(this.#boardPoints, updatedTask);
+    this.#pointsPresenter.find((point) => point.pointData.id === updatedTask.id).init(updatedTask);
+  };
+
+  #handleModeChange = () => {
+    this.#pointsPresenter.forEach((presenter) => presenter.resetView());
   };
 
   renderForm(enableButton) {
@@ -61,45 +70,12 @@ export default class MainPresenter {
     this.#selectedFilter = filterType;
   }
 
-  #renderPoint(point) {
-    const pointComponent = new PointListView(point);
-    const pointEditComponent = new FormEditPointView(point);
-
-    this.#pointComponentsArray.push(pointComponent);
-    this.#pointEditComponentsArray.push(pointEditComponent);
-
-    const replacePointToForm = () => {
-      replace(pointEditComponent, pointComponent);
-    };
-
-    const replaceFormToPoint = () => {
-      replace(pointComponent, pointEditComponent);
-    };
-
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        replaceFormToPoint();
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
-    pointComponent.setEditClickHandler(() => {
-      replacePointToForm();
-      document.addEventListener('keydown', onEscKeyDown);
+  #renderPoints() {
+    this.#boardPoints.forEach((point) => {
+      const pointPresenter = new PointPresenter(this.#listTripComponent.element, this.#handlePointChange, this.#handleModeChange);
+      pointPresenter.init(point);
+      this.#pointsPresenter.push(pointPresenter);
     });
-
-    pointEditComponent.setFormSubmitHandler(() => {
-      replaceFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    pointEditComponent.setButtonClickHandler(() => {
-      replaceFormToPoint();
-      document.removeEventListener('keydown', onEscKeyDown);
-    });
-
-    render(pointComponent, this.#listTripComponent.element);
   }
 
   #renderBoard = () => {
@@ -107,9 +83,7 @@ export default class MainPresenter {
     render(this.#sortComponent, this.#bodyContainer);
     render(this.#listTripComponent, this.#bodyContainer);
 
-    for(let i = 0; i < this.#boardPoints.length; i++) {
-      this.#renderPoint(this.#boardPoints[i]);
-    }
+    this.#renderPoints();
 
     if(this.#boardPoints.length === 0) {
       render( new NoPointView(), this.#listTripComponent);
