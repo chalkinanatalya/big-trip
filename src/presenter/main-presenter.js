@@ -6,7 +6,7 @@ import NoPointView from '../view/no-point-view';
 import { generateFilter } from '../mock/filter.js';
 import { FilterType, SortType } from '../const';
 import PointPresenter from './point-presenter.js';
-import { sortPointDay, updateItem } from '../utils/utils.js';
+import { sortPointDay, sortPointsPrice, sortPointsTime, updateItem } from '../utils/utils.js';
 
 export default class MainPresenter {
   #bodyContainer = null;
@@ -19,7 +19,7 @@ export default class MainPresenter {
   #boardPoints = [];
   #selectedFilter = FilterType.EVERYTHING;
 
-  #currentSortType = SortType.DAY;
+  #currentSortType = '';
   #sourcedBoardPoints = [];
 
   constructor(bodyContainer, pointsModel) {
@@ -57,18 +57,12 @@ export default class MainPresenter {
       case SortType.DAY:
         this.#boardPoints.sort(sortPointDay);
         break;
-      // case SortType.EVENT:
-      //   this.#boardPoints.sort(sortTaskDown);
-      //   break;
-      // case SortType.TIME:
-      //   this.#boardPoints.sort(sortTaskDown);
-      //   break;
-      // case SortType.PRICE:
-      //   this.#boardPoints.sort(sortTaskDown);
-      //   break;
-      // case SortType.OFFERS:
-      //   this.#boardPoints.sort(sortTaskDown);
-      //   break;
+      case SortType.TIME:
+        this.#boardPoints.sort(sortPointsTime);
+        break;
+      case SortType.PRICE:
+        this.#boardPoints.sort(sortPointsPrice);
+        break;
       default:
         this.#boardPoints = [...this.#sourcedBoardPoints];
     }
@@ -77,7 +71,7 @@ export default class MainPresenter {
   };
 
   #handleSortTypeChange = (sortType) => {
-    if (this.#currentSortType !== sortType) {
+    if (this.#currentSortType === sortType) {
       return;
     }
 
