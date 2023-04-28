@@ -58,8 +58,20 @@ const getWeightForNullDate = (dateA, dateB) => {
   return null;
 };
 
-export const sortPointDay = (taskA, taskB) => {
-  const weight = getWeightForNullDate(taskA.dateFrom, taskB.dateFrom);
+export const sortPointDay = (pointA, pointB) => {
+  const weight = getWeightForNullDate(pointA.dateFrom, pointB.dateFrom);
 
-  return weight ?? dayjs(taskA.dateFrom).diff(dayjs(taskB.dateFrom));
+  return weight ?? dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+};
+
+//sort time
+export const sortPointsTime = (pointA, pointB) => {
+  const total = (pointB.dateTo - pointB.dateFrom) - (pointA.dateTo - pointB.dateFrom);
+  return total;
+};
+
+//sort price
+export const sortPointsPrice = (pointA, pointB) => {
+  const total = pointB.basePrice - pointA.basePrice;
+  return total;
 };
